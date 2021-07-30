@@ -2,10 +2,6 @@ hora = int(input("Hora de inicio (horas): "))
 min = int(input("Minuto de inicio (minutos): "))
 dura = int(input("Duración del evento (minutos): "))
 
-# coloca tu código aqui
-#total = min + dura
-#hora = hora + int(total/60)
-#min = min + int(total%60)
 
 if dura < 60 : #si la duración es inferior a 60 min solo cambia una hora
     min += dura #sumamos el tiempo de duración a los min
