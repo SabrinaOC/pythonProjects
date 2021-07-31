@@ -7,6 +7,8 @@ board = [["1", "2", "3"], ["4", "5", "6"], ["7", "8", "9"]]
 ganador = False
 movimiento = 1
 turno = False # f --> máquina // t --> jugador
+ganador = False
+libres = True
 
 
 
@@ -22,9 +24,7 @@ def DisplayBoard(board):
     print("Tablero actual:")
 
     for i in range(len(board)):
-
         for j in range(len(board[i])):
-            #print ("""|""",   num  , """| """)
             print(board[i][j], end="\t")
             num += 1
         print()
@@ -33,9 +33,16 @@ def EnterMove(board):
 #
 # la función acepta el estado actual del tablero y pregunta al usuario acerca de su movimiento,
 # verifica la entrada y actualiza el tablero acorde a la decisión del usuario
-#
+    vacio = False
+#Bucle hasta que ingrese posición correcta
+    while vacio != True:
 
-    print("Juega jugador")
+        ubi = int(input("Ingresa posición próxima jugada:"))
+        vacio = ComprobarDisponibilidad(board, "O", ubi)
+        if vacio != True :
+                print("Casilla no disponible, elige otra")
+    
+    DisplayBoard(board)
 
 # def MakeListOfFreeFields(board):
 #
@@ -43,84 +50,102 @@ def EnterMove(board):
 # la lista esta compuesta por tuplas, cada tupla es un par de números que indican la fila y columna
 #
 
-# def VictoryFor(board, sign):
+def VictoryFor(board):
 #
 # la función analiza el estatus del tablero para verificar si
 # el jugador que utiliza las 'O's o las 'X's ha ganado el juego
 #
 
+#Recorremos listas para ver ganador
+    #1 filas
+    for i in range(len(board)):
+            #for j in range(len(board[i])):
+            if board[i][0] == board[i][1] and board[i][1] == board[i][2] :
+                if board[i][0] == "X":
+                    print("La máquina ha ganado")
+                else:
+                    print("¡Los humanos ganan!")
+                return True
+            else:
+                return False
+    #2 columnas
+    #for i in range(len(board)):
+    for i in range(len(board[0])):
+        print("Comprobación columnas i=", i)
+        if board[0][i] == board[1][i] and board[1][i] == board[2][i]:
+            if board[0][i] == "X":
+                print("La máquina ha ganado")
+            else:
+                print("¡Los humanos ganan!")
+            return True
+        else:
+            return False
 
 def DrawMove(board, movimiento):
-    #
-    #  juega la maquina y actualiza el tablero
-    #
-
-    # creo el tablero una lista de tres elementos con listas dentro
     #Si es el primer movimiento tiene que ser una X en 5
     if movimiento == 1 :
-        print("Jugada máquina. Movimiento:", movimiento)
-
-        #num = 1
         for i in range(len(board)):
-
             for j in range(len(board[i])):
-                #print ("""|""",   num  , """| """)
+
                 if board[i][j] == "5" :
-                    #print("X", end="\t")
                     #Después de mostrarlo en pantalla cambio la lista para conservar cambios
                     board[i][j] = "X"
-                #else:
-                 #   print(num, end="\t")
-                #num += 1
-            #print()
         DisplayBoard(board)
-
-        
     else :
         #Si no es el primer movimiento lanzo un número al azar para posición X
         #Variable para bucle numeros aleatorios hasta encontrar vacío
         vacio = False
-        while vacio == False:
+        while vacio != True:
             #lanzamos random
             ubi = randrange(9)
 
-            #comprobamos que está vacío
-            #num = 1
-            for i in range(len(board)):
-
-                for j in range(len(board[i])):
-                    #cuando el random coincida con num tendremos coordenadas
-                    if board[i][j] == str(ubi) :
-                        if board[i][j] != "X" and board[i][j] != "O":
-                            #Después de comprobar disponibilidad pintamos en pantalla x
-                            board[i][j] = "X"
-                            #salimos del bucle
-                            vacio = True
-        #mostramos tablero en pantalla
-        DisplayBoard(board)           
-        
-
+            vacio = ComprobarDisponibilidad(board, "X", ubi)
+            
         #Cuando nos aseguramos que está vacío pintamos en pantalla
+        DisplayBoard(board)
+
+# Función para comprobar disponibilidad
+def ComprobarDisponibilidad(board, jugador, posicion):
+
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            #cuando el random coincida con num tendremos coordenadas
+            if board[i][j] == str(posicion):
+                #print("Posición insertada:", posicion)
+                if board[i][j] != "X" and board[i][j] != "O":
+                    #Después de comprobar disponibilidad pintamos en pantalla el jugador correspondiente
+                    board[i][j] = jugador
+                    #devolvemos true o false para salir de bucle método principal
+                    #print("Devuelvo true disponible")
+                    return True
+
+def EspaciosLibres (board):
+    #Recorremos listas para ver si hay huecos disponibles para seguir jugando
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            if board[i][j] != "X" and board[i][j] != "O":
+                return True
 
 
-
-
-# print(type(ganador))
-    #while ganador == False:
-i = 0
 DisplayBoard(board)
-while i < 3 :
+while ganador != True and libres:
     
     if turno :
         EnterMove(board)
+        #Comprobamos ganador
+        ganador = VictoryFor(board)
         #Después de la jugada cambiamos turno
         turno = False
     else:
         DrawMove(board, movimiento)
+        #Comprobamos ganador
+        ganador = VictoryFor(board)
         #Después de la jugada cambiamos turno y sumamos movimiento
         turno = True
         movimiento += 1
-    
-    i += 1
+    #comprobamos si sigue habiendo espacios libres
+    libres = EspaciosLibres(board)
+    if libres != True:
+        print("¡Empate! No se pueden colocar más fichas")
 
-print(board)
+
