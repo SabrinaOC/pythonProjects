@@ -44,12 +44,6 @@ def EnterMove(board):
     
     DisplayBoard(board)
 
-# def MakeListOfFreeFields(board):
-#
-# la función examina el tablero y construye una lista de todos los cuadros vacíos
-# la lista esta compuesta por tuplas, cada tupla es un par de números que indican la fila y columna
-#
-
 def VictoryFor(board):
 #
 # la función analiza el estatus del tablero para verificar si
@@ -66,20 +60,34 @@ def VictoryFor(board):
                 else:
                     print("¡Los humanos ganan!")
                 return True
-            else:
-                return False
+            
     #2 columnas
     #for i in range(len(board)):
     for i in range(len(board[0])):
-        print("Comprobación columnas i=", i)
+        #print("Comprobación columnas i=", i)
         if board[0][i] == board[1][i] and board[1][i] == board[2][i]:
             if board[0][i] == "X":
                 print("La máquina ha ganado")
             else:
                 print("¡Los humanos ganan!")
             return True
+        
+    #3 diagonal principal
+    if board[0][0] == board[1][1] and board[0][0] == board[2][2] :
+        if board[0][0] == "X":
+            print("La máquina ha ganado")
         else:
-            return False
+            print("¡Los humanos ganan!")
+        return True
+    
+    #4 diagonal secundaria
+    if board [0][2] == board [1][1] and board [0][2] == board [2][0] :
+        if board[0][2] == "X":
+            print("La máquina ha ganado")
+        else:
+            print("¡Los humanos ganan!")
+        return True
+
 
 def DrawMove(board, movimiento):
     #Si es el primer movimiento tiene que ser una X en 5
@@ -145,7 +153,7 @@ while ganador != True and libres:
         movimiento += 1
     #comprobamos si sigue habiendo espacios libres
     libres = EspaciosLibres(board)
-    if libres != True:
+    if libres != True and ganador != True:
         print("¡Empate! No se pueden colocar más fichas")
 
 
