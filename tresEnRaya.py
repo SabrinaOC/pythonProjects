@@ -3,7 +3,7 @@ from random import randrange
 
 #Variables necesarias juego
 
-board = [["1", "2", "3"], ["4", "1", "2"], ["0", "1", "2"]]
+board = [["1", "2", "3"], ["4", "5", "6"], ["7", "8", "9"]]
 ganador = False
 movimiento = 1
 turno = False # f --> máquina // t --> jugador
@@ -19,13 +19,13 @@ def DisplayBoard(board):
     # Variable para mostrar en pantalla numeración tablero
     num = 1
 
-    print("Tablero inicial:")
+    print("Tablero actual:")
 
     for i in range(len(board)):
 
         for j in range(len(board[i])):
             #print ("""|""",   num  , """| """)
-            print(num, end="\t")
+            print(board[i][j], end="\t")
             num += 1
         print()
 
@@ -60,19 +60,22 @@ def DrawMove(board, movimiento):
     if movimiento == 1 :
         print("Jugada máquina. Movimiento:", movimiento)
 
-        num = 1
+        #num = 1
         for i in range(len(board)):
 
             for j in range(len(board[i])):
                 #print ("""|""",   num  , """| """)
-                if num == 5 :
-                    print("X", end="\t")
+                if board[i][j] == "5" :
+                    #print("X", end="\t")
                     #Después de mostrarlo en pantalla cambio la lista para conservar cambios
                     board[i][j] = "X"
-                else:
-                    print(num, end="\t")
-                num += 1
-            print()
+                #else:
+                 #   print(num, end="\t")
+                #num += 1
+            #print()
+        DisplayBoard(board)
+
+        
     else :
         #Si no es el primer movimiento lanzo un número al azar para posición X
         #Variable para bucle numeros aleatorios hasta encontrar vacío
@@ -82,17 +85,20 @@ def DrawMove(board, movimiento):
             ubi = randrange(9)
 
             #comprobamos que está vacío
-            num = 1
+            #num = 1
             for i in range(len(board)):
 
                 for j in range(len(board[i])):
                     #cuando el random coincida con num tendremos coordenadas
-                    if num == ubi :
+                    if board[i][j] == str(ubi) :
                         if board[i][j] != "X" and board[i][j] != "O":
                             #Después de comprobar disponibilidad pintamos en pantalla x
                             board[i][j] = "X"
-                    
-                
+                            #salimos del bucle
+                            vacio = True
+        #mostramos tablero en pantalla
+        DisplayBoard(board)           
+        
 
         #Cuando nos aseguramos que está vacío pintamos en pantalla
 
@@ -103,7 +109,7 @@ def DrawMove(board, movimiento):
     #while ganador == False:
 i = 0
 DisplayBoard(board)
-while i < 2 :
+while i < 3 :
     
     if turno :
         EnterMove(board)
@@ -111,8 +117,10 @@ while i < 2 :
         turno = False
     else:
         DrawMove(board, movimiento)
-        #Después de la jugada cambiamos turno
+        #Después de la jugada cambiamos turno y sumamos movimiento
         turno = True
+        movimiento += 1
     
     i += 1
+
 print(board)
