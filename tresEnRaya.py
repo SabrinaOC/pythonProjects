@@ -18,15 +18,12 @@ def DisplayBoard(board):
     # la función acepta un parámetro el cual contiene el estado actual del tablero
     # y lo muestra en la consola
 
-    # Variable para mostrar en pantalla numeración tablero
-    num = 1
-
     print("Tablero actual:")
 
     for i in range(len(board)):
         for j in range(len(board[i])):
             print(board[i][j], end="\t")
-            num += 1
+            
         print()
 
 def EnterMove(board):
@@ -45,11 +42,6 @@ def EnterMove(board):
     DisplayBoard(board)
 
 def VictoryFor(board):
-#
-# la función analiza el estatus del tablero para verificar si
-# el jugador que utiliza las 'O's o las 'X's ha ganado el juego
-#
-
 #Recorremos listas para ver ganador
     #1 filas
     for i in range(len(board)):
