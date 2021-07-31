@@ -18,13 +18,14 @@ def DisplayBoard(board):
     # la función acepta un parámetro el cual contiene el estado actual del tablero
     # y lo muestra en la consola
 
-    print("Tablero actual:")
+    print("Tablero actual: \n")
 
     for i in range(len(board)):
         for j in range(len(board[i])):
             print(board[i][j], end="\t")
             
         print()
+    print()
 
 def EnterMove(board):
 #
@@ -45,7 +46,6 @@ def VictoryFor(board):
 #Recorremos listas para ver ganador
     #1 filas
     for i in range(len(board)):
-            #for j in range(len(board[i])):
             if board[i][0] == board[i][1] and board[i][1] == board[i][2] :
                 if board[i][0] == "X":
                     print("La máquina ha ganado")
@@ -54,9 +54,7 @@ def VictoryFor(board):
                 return True
             
     #2 columnas
-    #for i in range(len(board)):
     for i in range(len(board[0])):
-        #print("Comprobación columnas i=", i)
         if board[0][i] == board[1][i] and board[1][i] == board[2][i]:
             if board[0][i] == "X":
                 print("La máquina ha ganado")
@@ -111,12 +109,10 @@ def ComprobarDisponibilidad(board, jugador, posicion):
         for j in range(len(board[i])):
             #cuando el random coincida con num tendremos coordenadas
             if board[i][j] == str(posicion):
-                #print("Posición insertada:", posicion)
                 if board[i][j] != "X" and board[i][j] != "O":
                     #Después de comprobar disponibilidad pintamos en pantalla el jugador correspondiente
                     board[i][j] = jugador
-                    #devolvemos true o false para salir de bucle método principal
-                    #print("Devuelvo true disponible")
+                    #devolvemos true para salir de bucle método principal
                     return True
 
 def EspaciosLibres (board):
